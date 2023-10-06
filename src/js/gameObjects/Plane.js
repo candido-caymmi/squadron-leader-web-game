@@ -6,11 +6,20 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
 
     move() {
         const path = new Phaser.Curves.Path(this.x, this.y);
-        path.ellipseTo(100, 100, this.angle + 180, this.angle + 360, false, 0);
-        path.lineTo();
+
+        const radius = 100;
+        const startAngle = this.angle + 180;
+        const endAngle = this.angle + 360 - 0.01;
+
+        const verticalMoveDistance = this.height / 2;
+        const lineX = this.x + (radius * 2) * Math.cos(Phaser.Math.DegToRad(endAngle));
+        const lineY = this.y + (Math.sin(Phaser.Math.DegToRad(endAngle)) >= 0 ? -verticalMoveDistance : verticalMoveDistance);
+
+        path.ellipseTo(radius, radius, startAngle, endAngle, false, 0);
+        path.lineTo(lineX, lineY);
 
         const graphics = this.scene.add.graphics();
-        graphics.lineStyle(1, 0xffffff, 0.5);
+        graphics.lineStyle(3, 0xffffff, 0.5);
 
         this.setPath(path);
         path.draw(graphics, 128);
@@ -25,8 +34,9 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
             verticalAdjust: true,
             rotationOffset: 90,
             onComplete: () =>{
-                console.log('Angle: ' + this.angle);
-                path.destroy;
+                console.log('Post-move Angle: ' + this.angle);
+                path.destroy();
+                graphics.destroy();
             }
         });
     }
