@@ -1,0 +1,6 @@
+/node_modules
+/dist
+/TODO.md
+.prettierrc
+.DS_Store
+.TODO.md
