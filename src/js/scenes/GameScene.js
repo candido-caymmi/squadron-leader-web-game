@@ -4,24 +4,24 @@ import InputHandler from "../gameObjects/InputHandler";
 
 export default class GameScene extends Phaser.Scene {
 
-  constructor() {
-    super({ key: "game", active: false, visible: false });
-  }
+	constructor() {
+		super({ key: "game", active: false, visible: false });
+	}
 
-  preload() {
+	preload() {
 
-  }
+	}
 
-  create() {
-    const UI = new UIHandler(this);
-    const inputHandler = new InputHandler(this);
+	create() {
+		const UI = new UIHandler(this);
+		const inputHandler = new InputHandler(this);
 
-    const plane = new Plane(this, 300, 300, 'planeA');
-    inputHandler.setControlledPlane(plane);
+		const plane = new Plane(this, 300, 300, 'planeA');
+		inputHandler.setControlledPlane(plane);
 
-  }
+	}
 
-  update() {
-    
-  }
+	update() {
+
+	}
 }

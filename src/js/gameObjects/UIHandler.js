@@ -5,9 +5,16 @@ export default class UIHandler {
         this.scene = scene;
         this.addMoveButtons();
     }
+    
     addMoveButtons(){
-        this.moveUpButton = new Button(this.scene, 640, 600, 'MOVE UP', ()=>{
-            this.scene.events.emit('moveUpButtonClick');
+        this.moveBankLeftButton = new Button(this.scene, 440, 600, 'MOVE LEFT', ()=>{
+            this.scene.events.emit('moveBankLeftButtonClick');
+        })
+        this.moveForwardButton = new Button(this.scene, 640, 600, 'MOVE FORWARD', ()=>{
+            this.scene.events.emit('moveForwardButtonClick');
+        })
+        this.moveBankRightButton = new Button(this.scene, 840, 600, 'MOVE RIGHT', ()=>{
+            this.scene.events.emit('moveBankRightButtonClick');
         })
     }
 }
