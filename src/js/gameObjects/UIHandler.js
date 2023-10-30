@@ -1,20 +1,43 @@
 import Button from "./Button";
+import { MOVEMENT_ACTIONS } from "../constants/movements";
+import { UI_EVENTS } from "../constants/events";
 
 export default class UIHandler {
-    constructor(scene) {
+    constructor(scene, turnHandler) {
         this.scene = scene;
+        this.turnHandler = turnHandler;
         this.addMoveButtons();
+        this.addPlayerNameText();
     }
     
     addMoveButtons(){
-        this.moveBankLeftButton = new Button(this.scene, 440, 600, 'MOVE LEFT', ()=>{
-            this.scene.events.emit('moveBankLeftButtonClick');
+        const buttons = [
+            { text: 'HARD BANK (LEFT)', action: MOVEMENT_ACTIONS.HARD_BANK_LEFT },
+            { text: 'BANK (LEFT)', action: MOVEMENT_ACTIONS.BANK_LEFT },
+            { text: 'MOVE FORWARD', action: MOVEMENT_ACTIONS.MOVE_FORWARD },
+            { text: 'BANK (RIGHT)', action: MOVEMENT_ACTIONS.BANK_RIGHT },
+            { text: 'HARD BANK (RIGHT)', action: MOVEMENT_ACTIONS.HARD_BANK_RIGHT },
+        ];
+
+        // Button callback function
+        const onButtonClick = (action)=> {
+            this.scene.events.emit(UI_EVENTS.MOVE_BUTTON_CLICK, action);
+        }
+        
+        buttons.forEach((buttonInfo, index) => {
+            new Button(this.scene, 560 + (200 * index), (1080 / 2) + 200, buttonInfo.text, ()=> onButtonClick(buttonInfo.action));
         })
-        this.moveForwardButton = new Button(this.scene, 640, 600, 'MOVE FORWARD', ()=>{
-            this.scene.events.emit('moveForwardButtonClick');
-        })
-        this.moveBankRightButton = new Button(this.scene, 840, 600, 'MOVE RIGHT', ()=>{
-            this.scene.events.emit('moveBankRightButtonClick');
-        })
+    }
+
+    addPlayerNameText() {
+        this.playerNameText = this.scene.add.text(10, 10, '', { fontSize: '24px', fill: '#fff' }).setScrollFactor(0);
+        this.updatePlayerNameText();
+    }
+
+    updatePlayerNameText() {
+        const currentPlayer = this.turnHandler.getCurrentPlayer();
+        if (currentPlayer) {
+            this.playerNameText.setText(`Current Turn: ${currentPlayer.name}`);
+        }
     }
 }

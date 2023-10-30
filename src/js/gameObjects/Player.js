@@ -1,5 +1,12 @@
+import Plane from "./Plane"
+
 export default class Player {
-    constructor(){
-        this.planes = [];
+    constructor(name){
+        this.name = name;
+        this.plane;
+    }
+
+    setPlane(plane) {
+        this.plane = plane;
     }
 }

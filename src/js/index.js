@@ -6,13 +6,10 @@ import "../css/style.css";
 
 const config = {
   type: Phaser.AUTO,
-  width: 1280,
-  height: 720,
+  width: 1920,
+  height: 1080,
   scale: {
-     // Fit to window
-     // mode: Phaser.Scale.FIT,
-     // Center vertically and horizontally
-     autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
+     mode: Phaser.Scale.ENVELOP,
   },
   input: {
     wheel: true

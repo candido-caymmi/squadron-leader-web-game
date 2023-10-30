@@ -14,7 +14,7 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
         const graphics = this.scene.add.graphics();
 
         let angleAdjust;
-        let animationTime;;
+        let animationTime;
 
         switch (type) {
             case 'forward':
@@ -33,7 +33,7 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
                 animationTime = params.animationTime || 600;
 
                 const radius = params.radius || 100;
-                const targetAngle = params.targetAngle || -90 ;
+                const targetAngle = params.targetAngle || -90;
                 const startAngle = this.angle + angleAdjust;
                 const endAngle = startAngle + targetAngle;
                 const clockwise = params.clockwise || false;
@@ -41,11 +41,11 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
                 path.ellipseTo(radius, radius, startAngle, endAngle, clockwise, 0)
 
                 // Add rotation animation
-                this.scene.tweens.add({ 
+                this.scene.tweens.add({
                     targets: this,
-                    angle: endAngle - angleAdjust,  
+                    angle: endAngle - angleAdjust,
                     duration: animationTime,
-                    ease: 'cubic', 
+                    ease: 'cubic',
                     repeat: 0,
                     yoyo: false
                 });
@@ -67,20 +67,25 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
             onComplete: () => {
                 path.destroy();
                 graphics.destroy();
+                console.log('x: ' + this.x);
             }
         })
     }
 
+    moveHardBankLeft() {
+        this.move('bank', { radius: 100, animationTime: 400, angleAdjust: 0, targetAngle: -90, clockwise: true })
+    }
     moveBankLeft() {
-        this.move('bank', {radius: 100, animationTime: 600, angleAdjust: 0, targetAngle: -90, clockwise: true})
+        this.move('bank', { radius: 160, animationTime: 400, angleAdjust: 0, targetAngle: -60, clockwise: true })
     }
-
     moveForward() {
-        this.move('forward', {distance: 180, animationTime: 400});
+        this.move('forward', { distance: 180, animationTime: 300 });
     }
-
     moveBankRight() {
-        this.move('bank', {radius: 100, animationTime: 600, angleAdjust: 180, targetAngle: 90, clockwise: false})
+        this.move('bank', { radius: 160, animationTime: 400, angleAdjust: 180, targetAngle: 60, clockwise: false })
+    }
+    moveHardBankRight() {
+        this.move('bank', { radius: 100, animationTime: 400, angleAdjust: 180, targetAngle: 90, clockwise: false })
     }
 }
 

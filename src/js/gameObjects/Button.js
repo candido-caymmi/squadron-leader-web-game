@@ -8,5 +8,6 @@ export default class Button {
             .on('pointerdown', () => callback())
             .on('pointerover', () => button.setStyle({ fill: '#f39c12' }))
             .on('pointerout', () => button.setStyle({ fill: '#FFF' }));
+        button.setScrollFactor(0);
     }
 }
