@@ -1,6 +1,7 @@
 import Button from "./Button";
 import { MOVEMENT_ACTIONS } from "../constants/movements";
 import { UI_EVENTS } from "../constants/events";
+import { TURN_HANDLER_EVENTS } from "../constants/events";
 
 export default class UIHandler {
     constructor(scene, turnHandler) {
@@ -8,6 +9,8 @@ export default class UIHandler {
         this.turnHandler = turnHandler;
         this.addMoveButtons();
         this.addPlayerNameText();
+
+        this.scene.events.on(TURN_HANDLER_EVENTS.TURN_CHANGE, this.updatePlayerNameText);
     }
     
     addMoveButtons(){
@@ -18,8 +21,6 @@ export default class UIHandler {
             { text: 'BANK (RIGHT)', action: MOVEMENT_ACTIONS.BANK_RIGHT },
             { text: 'HARD BANK (RIGHT)', action: MOVEMENT_ACTIONS.HARD_BANK_RIGHT },
         ];
-
-        // Button callback function
         const onButtonClick = (action)=> {
             this.scene.events.emit(UI_EVENTS.MOVE_BUTTON_CLICK, action);
         }

@@ -11,25 +11,7 @@ export default class InputHandler {
     }
 
     handleMoveButton(action) {
-        switch (action) {
-            case MOVEMENT_ACTIONS.HARD_BANK_LEFT:
-                this.controlledPlane.moveHardBankLeft();
-                break;
-            case MOVEMENT_ACTIONS.BANK_LEFT:
-                this.controlledPlane.moveBankLeft();
-                break;
-            case MOVEMENT_ACTIONS.MOVE_FORWARD:
-                this.controlledPlane.moveForward();
-                break;
-            case MOVEMENT_ACTIONS.BANK_RIGHT:
-                this.controlledPlane.moveBankRight();
-                break;
-            case MOVEMENT_ACTIONS.HARD_BANK_RIGHT:
-                this.controlledPlane.moveHardBankRight();
-                break;
-            default:
-                break;
-        }
+        this.controlledPlane.move(action);
     }
     
     // Moves camera based on cursor pressed

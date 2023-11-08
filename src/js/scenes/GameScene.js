@@ -48,12 +48,11 @@ export default class GameScene extends Phaser.Scene {
 		this.playerB.setPlane(this.planeB);
 
 		// Adds players to TurnHandler
-		this.turnHandler.addPlayer(this.playerA);
 		this.turnHandler.addPlayer(this.playerB);
+		this.turnHandler.addPlayer(this.playerA);
 
 		// Sets initially controlled plane
-		this.inputHandler.setControlledPlane(this.planeA);
-		console.log(this.planeA)
+		this.inputHandler.setControlledPlane(this.planeB);
 
 		// Updates current player's text 
 		this.UI.updatePlayerNameText();
