@@ -1,4 +1,5 @@
 import { MOVEMENT_ACTIONS, MOVEMENT_COSTS } from "../constants/movements";
+import { PLANE_EVENTS } from "../constants/events";
 
 export default class Plane extends Phaser.GameObjects.PathFollower {
     constructor(scene, x, y, texture) {
@@ -6,7 +7,8 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
         scene.add.existing(this);
 
         //TODO: add attributes
-        this.remainingActions = 4; // Change to manouvres?
+        this.baseActions = 4; // Change to manouvres?
+        this.remainingActions = this.baseActions; // Change to manouvres?
     }
 
     move(action) {
@@ -39,15 +41,14 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
                 break;
         }
 
-        this.followPath(path, animationTime);
-
         this.spendActions(action);
-
         console.log("Actions Left: ", this.remainingActions);
 
-        if(!this.hasRemainingActions) {
-            console.log("Out of actions");
-        }
+        this.followPath(path, animationTime, ()=> { 
+            if(!this.hasRemainingActions()) {
+            console.log("Out of actions. Switching turn.");
+            this.scene.events.emit(PLANE_EVENTS.OUT_OF_ACTIONS);
+        }});
     }
 
     makeCurvedPath(radius, angleAdjust, targetAngle, clockwise, animationTime) {
@@ -63,7 +64,7 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
             targets: this,
             angle: endAngle - angleAdjust,
             duration: animationTime,
-            ease: 'cubic',
+            ease: 'Sine.easeInOut',
             repeat: 0,
             yoyo: false
         });
@@ -85,7 +86,7 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
         return path;
     }
 
-    followPath(path, animationTime) {
+    followPath(path, animationTime, callback) {
         const graphics = this.scene.add.graphics();
         graphics.lineStyle(3, 0xffffff, 0.5);
 
@@ -94,13 +95,19 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
 
         this.startFollow({
             duration: animationTime,
+            ease: 'Sine.easeInOut',
             yoyo: false,
             repeat: 0,
             onComplete: () => {
                 graphics.destroy();
                 path.destroy();
+                callback();
             }
         })
+    }
+
+    restoreActions() {
+        this.remainingActions = this.baseActions; 
     }
 
     spendActions(action) {

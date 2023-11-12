@@ -9,8 +9,8 @@ export default class UIHandler {
         this.turnHandler = turnHandler;
         this.addMoveButtons();
         this.addPlayerNameText();
-
-        this.scene.events.on(TURN_HANDLER_EVENTS.TURN_CHANGE, this.updatePlayerNameText);
+        
+        this.scene.events.on(TURN_HANDLER_EVENTS.TURN_CHANGE, this.updatePlayerNameText.bind(this));
     }
     
     addMoveButtons(){
