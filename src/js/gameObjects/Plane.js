@@ -8,7 +8,7 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
 
         //TODO: add attributes
         this.baseActions = 4; // Change to manouvres?
-        this.remainingActions = this.baseActions; // Change to manouvres?
+        this.remainingActions = this.baseActions;
     }
 
     move(action) {
@@ -42,6 +42,7 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
         }
 
         this.spendActions(action);
+        this.scene.events.emit(PLANE_EVENTS.ACTION_EXPENT);
         console.log("Actions Left: ", this.remainingActions);
 
         this.followPath(path, animationTime, ()=> { 
@@ -120,6 +121,10 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
 
     hasRemainingActions() {
         return this.remainingActions > 0;
+    }
+
+    getRemainingActions() {
+        return this.remainingActions;
     }
 
     // moveHardBankLeft() {

@@ -9,4 +9,12 @@ export default class Player {
     setPlane(plane) {
         this.plane = plane;
     }
+
+    getPlane() {
+        return this.plane 
+    }
+
+    getName() {
+        return this.name;
+    }
 }

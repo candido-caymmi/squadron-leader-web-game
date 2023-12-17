@@ -7,5 +7,6 @@ export const TURN_HANDLER_EVENTS = {
 }
 
 export const PLANE_EVENTS = {
+    ACTION_EXPENT: 'action_expent',
     OUT_OF_ACTIONS: 'out_of_actions',
 }
