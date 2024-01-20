@@ -3,22 +3,14 @@ import Player from "../gameObjects/Player";
 import UIHandler from "../gameObjects/UIHandler";
 import InputHandler from "../gameObjects/InputHandler";
 import TurnHandler from "../gameObjects/TurnHandler";
+import { MAP } from "../constants/map";
+import { CAMERA } from "../constants/camera";
 
-const SCREEN_LIMITS_X = 2880;
-const SCREEN_LIMITS_Y = 1620;
-
-const MAP_LIMITS_X = 2680; 
-const MAP_LIMITS_Y = 1420;
-const MAP_MARGIN = 200;
 
 export default class GameScene extends Phaser.Scene {
 
 	constructor() {
 		super({ key: "game", active: false, visible: false });
-	}
-
-	preload() {
-	
 	}
 
 	create() {
@@ -27,19 +19,19 @@ export default class GameScene extends Phaser.Scene {
 		this.UI = new UIHandler(this, this.turnHandler);
 		
 		// Main camera setup
-		this.cameras.main.setBounds(0, 0, SCREEN_LIMITS_X, SCREEN_LIMITS_Y);
+		this.cameras.main.setBounds(0, 0, CAMERA.SCREEN_LIMITS_X, CAMERA.SCREEN_LIMITS_Y);
 
 		// Map/map borders setup
 		const mapBorders = this.add.rectangle(
-			MAP_MARGIN,
-			MAP_MARGIN, 
-			MAP_LIMITS_X - MAP_MARGIN, 
-			MAP_LIMITS_Y - MAP_MARGIN
+			MAP.MARGIN,
+			MAP.MARGIN, 
+			MAP.LIMITS_X - MAP.MARGIN, 
+			MAP.LIMITS_Y - MAP.MARGIN,
 		).setOrigin(0);
 		mapBorders.setStrokeStyle(4, 0xFFFFFF)
 
-		this.planeA = new Plane(this, MAP_LIMITS_X/2, MAP_LIMITS_Y - 100, 'planeA');
-		this.planeB = new Plane(this, MAP_LIMITS_X/2, MAP_MARGIN + 100, 'planeB').setAngle(180);
+		this.planeA = new Plane(this, MAP.LIMITS_X/2, MAP.LIMITS_Y - 100, 'planeA');
+		this.planeB = new Plane(this, MAP.LIMITS_X/2, MAP.MARGIN + 100, 'planeB').setAngle(180);
 		
 		// Adds planes to players
 		this.playerA = new Player('Fulano');
