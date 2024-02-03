@@ -1,5 +1,5 @@
 import InputHandler from "./InputHandler";
-import Player from "./Player";
+import Player from "../gameObjects/Player";
 import { TURN_HANDLER_EVENTS, PLANE_EVENTS } from "../constants/events";
 
 export default class TurnHandler {

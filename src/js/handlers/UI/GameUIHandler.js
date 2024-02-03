@@ -1,10 +1,10 @@
-import Button from "./Button";
-import { MOVEMENT_ACTIONS } from "../constants/movements";
-import { UI_EVENTS } from "../constants/events";
-import { TURN_HANDLER_EVENTS } from "../constants/events";
-import { PLANE_EVENTS } from "../constants/events";
+import Button from "../../gameObjects/Button";
+import { MOVEMENT_ACTIONS } from "../../constants/movements";
+import { GAME_UI_EVENTS } from "../../constants/events";
+import { TURN_HANDLER_EVENTS } from "../../constants/events";
+import { PLANE_EVENTS } from "../../constants/events";
 
-export default class UIHandler {
+export default class GameUIHandler {
     constructor(scene, turnHandler) {
         this.scene = scene;
         this.turnHandler = turnHandler;
@@ -31,8 +31,8 @@ export default class UIHandler {
             { text: '[2] BANK (RIGHT)', action: MOVEMENT_ACTIONS.BANK_RIGHT },
             { text: '[3] HARD BANK (RIGHT)', action: MOVEMENT_ACTIONS.HARD_BANK_RIGHT },
         ];
-        const onButtonClick = (action)=> {
-            this.scene.events.emit(UI_EVENTS.MOVE_BUTTON_CLICK, action);
+        const onButtonClick = (action) => {
+            this.scene.events.emit(GAME_UI_EVENTS.MOVE_BUTTON_CLICK, action);
         }
         
         buttons.forEach((buttonInfo, index) => {
@@ -42,11 +42,11 @@ export default class UIHandler {
 
     // Add text methods
     addPlayerNameText() {
-        this.playerNameText = this.scene.add.text(10, 10, '', { fontSize: '24px', fill: '#fff' }).setScrollFactor(0);
+        this.playerNameText = this.scene.add.text(40, 110, '', { fontSize: '24px', fill: '#fff' }).setScrollFactor(0);
     }
 
     addPlaneRemainingActionsText() {
-        this.planeRemainingActionsText = this.scene.add.text(10, 40, '', { fontSize: '24px', fill: '#fff' }).setScrollFactor(0);
+        this.planeRemainingActionsText = this.scene.add.text(40, 150, '', { fontSize: '24px', fill: '#fff' }).setScrollFactor(0);
     }
 
     // Update text methods

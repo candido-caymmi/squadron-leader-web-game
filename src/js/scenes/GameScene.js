@@ -1,8 +1,9 @@
 import Plane from "../gameObjects/Plane";
 import Player from "../gameObjects/Player";
-import UIHandler from "../gameObjects/UIHandler";
-import InputHandler from "../gameObjects/InputHandler";
-import TurnHandler from "../gameObjects/TurnHandler";
+import GameUIHandler from "../handlers/UI/GameUIHandler";
+import InputHandler from "../handlers/InputHandler";
+import TurnHandler from "../handlers/TurnHandler";
+import { SCENES } from "../constants/sceneKeys";
 import { MAP } from "../constants/map";
 import { CAMERA } from "../constants/camera";
 
@@ -10,14 +11,17 @@ import { CAMERA } from "../constants/camera";
 export default class GameScene extends Phaser.Scene {
 
 	constructor() {
-		super({ key: "game", active: false, visible: false });
+		super({ key: SCENES.GAME, active: false, visible: false });
 	}
 
 	create() {
 		this.inputHandler = new InputHandler(this);
 		this.turnHandler = new TurnHandler(this, this.inputHandler);
-		this.UI = new UIHandler(this, this.turnHandler);
 		
+		// Background Grid 
+		this.add.image(CAMERA.SCREEN_LIMITS_X*0.5, CAMERA.SCREEN_LIMITS_Y*0.5, 'grid');
+		this.UI = new GameUIHandler(this, this.turnHandler);
+
 		// Main camera setup
 		this.cameras.main.setBounds(0, 0, CAMERA.SCREEN_LIMITS_X, CAMERA.SCREEN_LIMITS_Y);
 
@@ -44,13 +48,12 @@ export default class GameScene extends Phaser.Scene {
 		this.turnHandler.addPlayer(this.playerB);
 
 		// Sets initially controlled plane
-		// NOTE: should always be the first on the player list
+		// NOTE: should always be the first on the player list // TO-DO: Make this automatic 
 		this.inputHandler.setControlledPlane(this.planeA);
 
 		// Updates current player's text 
 		this.UI.updatePlayerNameText();
 		this.UI.updatePlaneRemainingActionsText();
-		
 	}
 
 	update() {
