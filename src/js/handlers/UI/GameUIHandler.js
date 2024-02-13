@@ -42,11 +42,11 @@ export default class GameUIHandler {
 
     // Add text methods
     addPlayerNameText() {
-        this.playerNameText = this.scene.add.text(40, 110, '', { fontSize: '24px', fill: '#fff' }).setScrollFactor(0);
+        this.playerNameText = this.scene.add.text(40, 110, '', { fontSize: '24px', fill: '#000' }).setScrollFactor(0);
     }
 
     addPlaneRemainingActionsText() {
-        this.planeRemainingActionsText = this.scene.add.text(40, 150, '', { fontSize: '24px', fill: '#fff' }).setScrollFactor(0);
+        this.planeRemainingActionsText = this.scene.add.text(40, 150, '', { fontSize: '24px', fill: '#000' }).setScrollFactor(0);
     }
 
     // Update text methods

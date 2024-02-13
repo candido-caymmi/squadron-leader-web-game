@@ -32,7 +32,7 @@ export default class GameScene extends Phaser.Scene {
 			MAP.LIMITS_X - MAP.MARGIN, 
 			MAP.LIMITS_Y - MAP.MARGIN,
 		).setOrigin(0);
-		mapBorders.setStrokeStyle(4, 0xFFFFFF)
+		mapBorders.setStrokeStyle(4, 0x000)
 
 		this.planeA = new Plane(this, MAP.LIMITS_X/2, MAP.LIMITS_Y - 100, 'planeA');
 		this.planeB = new Plane(this, MAP.LIMITS_X/2, MAP.MARGIN + 100, 'planeB').setAngle(180);
