@@ -32,7 +32,7 @@ export default class GameScene extends Phaser.Scene {
 			MAP.LIMITS_X - MAP.MARGIN, 
 			MAP.LIMITS_Y - MAP.MARGIN,
 		).setOrigin(0);
-		mapBorders.setStrokeStyle(4, 0x000)
+		mapBorders.setStrokeStyle(4, 0x1E1E1E)
 
 		this.planeA = new Plane(this, MAP.LIMITS_X/2, MAP.LIMITS_Y - 100, 'planeA');
 		this.planeB = new Plane(this, MAP.LIMITS_X/2, MAP.MARGIN + 100, 'planeB').setAngle(180);
@@ -51,9 +51,9 @@ export default class GameScene extends Phaser.Scene {
 		// NOTE: should always be the first on the player list // TO-DO: Make this automatic 
 		this.inputHandler.setControlledPlane(this.planeA);
 
-		// Updates current player's text 
+		// Updates current player's text for the first time
 		this.UI.updatePlayerNameText();
-		this.UI.updatePlaneRemainingActionsText();
+		this.UI.state.updatePlaneRemainingActionsText();
 	}
 
 	update() {

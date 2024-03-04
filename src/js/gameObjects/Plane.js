@@ -1,13 +1,16 @@
 import { MOVEMENT_ACTIONS, MOVEMENT_COSTS } from "../constants/movements";
 import { PLANE_EVENTS } from "../constants/events";
 import PlaneMovementHandler from "../handlers/PlaneMovementHandler";
+import PlaneMovementState from "../states/plane/PlaneMovementState";
 
 export default class Plane extends Phaser.GameObjects.PathFollower {
     constructor(scene, x, y, texture) {
         super(scene, new Phaser.Curves.Path(), x, y, texture);
         scene.add.existing(this);
         this.planeMovementHandler = new PlaneMovementHandler(this.scene, this);
-    
+
+        this.state = new PlaneMovementState(this);
+        
         this.attackArcs = [];
         for(let i=0; i<3; i++)
             this.attackArcs.push(this.scene.add.graphics());
@@ -17,18 +20,20 @@ export default class Plane extends Phaser.GameObjects.PathFollower {
         this.remainingActions = this.baseActions;
     }
 
-    move(action) {
-        if (this.isFollowing())
-            return;
+    control(action) {
+        this.state.control(action)
+    
+        // if (this.isFollowing())
+        //     return;
 
-        if (!this.isActionCostValid(action))
-            return;
+        // if (!this.isActionCostValid(action))
+        //     return;
 
-        this.planeMovementHandler.move(action);
-        this.spendActions(action);
-        this.scene.events.emit(PLANE_EVENTS.ACTION_EXPENT);
+        // this.planeMovementHandler.move(action);
+        // this.spendActions(action);
+        // this.scene.events.emit(PLANE_EVENTS.ACTION_EXPENT);
 
-        console.log("Actions Left: ", this.remainingActions);
+        // console.log("Actions Left: ", this.remainingActions);
     }
 
     showAttackRange() {

@@ -1,67 +1,59 @@
-import Button from "../../gameObjects/Button";
 import { MOVEMENT_ACTIONS } from "../../constants/movements";
 import { GAME_UI_EVENTS } from "../../constants/events";
 import { TURN_HANDLER_EVENTS } from "../../constants/events";
 import { PLANE_EVENTS } from "../../constants/events";
+import Button from "../../../assets/components/Button";
+import SmallButton from "../../../assets/components/SmallButton";
+import GameInfoText from "../../../assets/components/GameInfoText";
+import GameUIMovementState from "../../states/UI/GameUIMovementState";
 
 export default class GameUIHandler {
     constructor(scene, turnHandler) {
         this.scene = scene;
         this.turnHandler = turnHandler;
 
-        this.addMoveButtons();
-        this.addPlayerNameText();
-        this.addPlaneRemainingActionsText();
+        // Sets initial state
+        this.state = new GameUIMovementState(this);
 
-        // Updates this.playerNameText on turn change 
-        this.scene.events.on(TURN_HANDLER_EVENTS.TURN_CHANGE, this.updatePlayerNameText.bind(this));
+        // Add UI elements
+        this.addButtons();
+        this.addText();
 
-        // Updates this.planeRemainingActionsText on turn change
-        this.scene.events.on(TURN_HANDLER_EVENTS.TURN_CHANGE, this.updatePlaneRemainingActionsText.bind(this));
-
-         // Updates this.planeRemainingActionsText on action expent
-        this.scene.events.on(PLANE_EVENTS.ACTION_EXPENT, this.updatePlaneRemainingActionsText.bind(this));
-    }
-    
-    addMoveButtons(){
-        const buttons = [
-            { text: '[3] HARD BANK (LEFT)', action: MOVEMENT_ACTIONS.HARD_BANK_LEFT },
-            { text: '[2] BANK (LEFT)', action: MOVEMENT_ACTIONS.BANK_LEFT },
-            { text: '[1] MOVE FORWARD', action: MOVEMENT_ACTIONS.MOVE_FORWARD },
-            { text: '[2] BANK (RIGHT)', action: MOVEMENT_ACTIONS.BANK_RIGHT },
-            { text: '[3] HARD BANK (RIGHT)', action: MOVEMENT_ACTIONS.HARD_BANK_RIGHT },
-        ];
-        const onButtonClick = (action) => {
-            this.scene.events.emit(GAME_UI_EVENTS.MOVE_BUTTON_CLICK, action);
-        }
-        
-        buttons.forEach((buttonInfo, index) => {
-            new Button(this.scene, 560 + (200 * index), (1080 / 2) + 200, buttonInfo.text, ()=> onButtonClick(buttonInfo.action));
-        })
+        // Updates player name text on turn change 
+        this.scene.events.on(TURN_HANDLER_EVENTS.TURN_CHANGE, this.updatePlayerNameText, this);
+        this.scene.events.on(TURN_HANDLER_EVENTS.PHASE_CHANGE, this.switchStates, this);
     }
 
-    // Add text methods
+    addButtons() { this.addSkipTurnButton(); }
+    addText() { this.addPlayerNameText(); }
+
+    // Add text method
+    addSkipTurnButton() {
+        const onButtonClick = () => { this.scene.events.emit(GAME_UI_EVENTS.SKIP_TURN_BUTTON_CLICK);}
+
+        const screenWidth = this.scene.game.config.width;
+        const screenHeight = this.scene.game.config.height;
+
+        this.skipButton = this.scene.add.dom(screenWidth * 0.1, screenHeight * 0.85, SmallButton('SKIP TURN'))
+            .addListener('click').on('click', () => onButtonClick())
+            .setScrollFactor(0);
+    }
     addPlayerNameText() {
-        this.playerNameText = this.scene.add.text(40, 110, '', { fontSize: '24px', fill: '#000' }).setScrollFactor(0);
-    }
-
-    addPlaneRemainingActionsText() {
-        this.planeRemainingActionsText = this.scene.add.text(40, 150, '', { fontSize: '24px', fill: '#000' }).setScrollFactor(0);
+        this.playerNameText = this.scene.add.dom(
+            this.scene.game.config.width * 0.1,
+            this.scene.game.config.height * 0.12,
+            GameInfoText('Current Turn: ', 'playerNameText')
+        ).setScrollFactor(0)
     }
 
     // Update text methods
     updatePlayerNameText() {
         const currentPlayer = this.turnHandler.getCurrentPlayer();
-        if (currentPlayer) {
-            this.playerNameText.setText(`Current Turn: ${currentPlayer.getName()}`);
-        }
+        if (currentPlayer)
+            document.getElementById('playerNameText').textContent = `Current Turn: ${currentPlayer.getName()}`;
     }
 
-    updatePlaneRemainingActionsText() {
-        const currentPlayer = this.turnHandler.getCurrentPlayer();
-        const plane = currentPlayer.getPlane();
-        if (currentPlayer) {
-            this.planeRemainingActionsText.setText(`Remaining Actions: ${plane.getRemainingActions()}`);
-        }
+    switchStates() {
+        this.state.switchStates();
     }
 }

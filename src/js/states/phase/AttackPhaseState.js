@@ -5,7 +5,6 @@ import { TURN_HANDLER_EVENTS } from "../../constants/events";
 export default class AttackPhaseState {
     constructor(turnHandler) {
         this.turnHandler = turnHandler;
-        console.log("ATTACK PHASE!");
     }
 
     handleTurnSwitch(plane) {

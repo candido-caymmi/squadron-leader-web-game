@@ -8,7 +8,7 @@ export default class InputHandler {
         this.cursors = scene.input.keyboard.createCursorKeys();
         this.controlledPlane;
 
-        this.scene.events.on(GAME_UI_EVENTS.MOVE_BUTTON_CLICK, this.handleMoveButton.bind(this));
+        this.scene.events.on(GAME_UI_EVENTS.MOVE_BUTTON_CLICK, this.handlePlaneControlButton.bind(this));
         this.scene.events.on(MAIN_MENU_UI_EVENTS.BUTTON_CLICK, this.handleSceneChangeButton.bind(this));
     }
 
@@ -16,8 +16,8 @@ export default class InputHandler {
         this.scene.scene.start(nextScene);
     }
 
-    handleMoveButton(action) {
-        this.controlledPlane.move(action);
+    handlePlaneControlButton(action) {
+        this.controlledPlane.control(action);
     }
 
     // Moves camera based on cursor pressed

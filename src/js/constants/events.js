@@ -1,5 +1,6 @@
 export const GAME_UI_EVENTS = { 
     MOVE_BUTTON_CLICK: 'move_button_click',
+    SKIP_TURN_BUTTON_CLICK: 'skip_turn_button_click',
 }
 
 export const MAIN_MENU_UI_EVENTS = {
@@ -8,6 +9,7 @@ export const MAIN_MENU_UI_EVENTS = {
 
 export const TURN_HANDLER_EVENTS = {
     TURN_CHANGE: 'turn_change',
+    PHASE_CHANGE: 'phase_change',
 }
 
 export const PLANE_EVENTS = {
